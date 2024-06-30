@@ -15,5 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('products', ProductController::class);
+Route::delete('/products/{id}', 'ProductController@delete')->name('products.delete');
+
 
 
