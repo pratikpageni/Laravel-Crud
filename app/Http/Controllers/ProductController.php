@@ -38,8 +38,9 @@ class ProductController extends Controller
         }
 
         $product = Product::updateOrCreate(
-            ['name' => $request->name],
+            ['id' => $request->id],
             [
+                'name' => $request->name,
                 'description' => $request->description,
                 'price' => $request->price,
                 'stock' => $request->stock,
@@ -66,11 +67,9 @@ class ProductController extends Controller
         //
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
-        dd(1);
         $product = Product::findOrFail($id);
-
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }

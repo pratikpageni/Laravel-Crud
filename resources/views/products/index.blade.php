@@ -25,7 +25,11 @@
                     <td class="py-2 px-4 border border-gray-300">{{ $product->price }}</td>
                     {{-- <td class="py-2 px-4 border border-gray-300">{{ $product->stock }}</td> --}}
                     <td class="py-2 px-4 border border-gray-300">
-                        <a href="{{ route('products.destroy', $product) }}" class="text-red-500 hover:underline">Delete</a> |
+                        <form action="{{ route('products.destroy', $product) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                        </form> |
                         <a href="{{ route('products.edit', $product) }}" class="text-green-500 hover:underline">Edit</a> |
                         <a href="{{ route('products.show', $product) }}" class="text-blue-500 hover:underline">Show</a>
                     </td>

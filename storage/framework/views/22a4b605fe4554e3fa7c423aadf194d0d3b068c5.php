@@ -25,7 +25,11 @@
                     <td class="py-2 px-4 border border-gray-300"><?php echo e($product->price); ?></td>
                     
                     <td class="py-2 px-4 border border-gray-300">
-                        <a href="<?php echo e(route('products.destroy', $product)); ?>" class="text-red-500 hover:underline">Delete</a> |
+                        <form action="<?php echo e(route('products.destroy', $product)); ?>" method="POST" style="display:inline;">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('DELETE'); ?>
+                            <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                        </form> |
                         <a href="<?php echo e(route('products.edit', $product)); ?>" class="text-green-500 hover:underline">Edit</a> |
                         <a href="<?php echo e(route('products.show', $product)); ?>" class="text-blue-500 hover:underline">Show</a>
                     </td>
