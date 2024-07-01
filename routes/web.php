@@ -14,10 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
 Route::resource('products', ProductController::class);
-// Route::get('/products/destroy', [ProductController::class, 'destroy'])->name('products.destroy');
 
-
-
-
-
+require __DIR__.'/auth.php';

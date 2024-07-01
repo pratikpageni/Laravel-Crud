@@ -2,15 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
 
+
+
+    protected  $product;
+    public function __construct()
+    {
+        $this->product = new Product();
+    }
+
     public function index()
     {
-        $products = Product::all();
+        $products =  $this->product::all();
+
+        ///status boolen 
 
         return view('products.index', compact('products'));
     }
@@ -22,55 +35,81 @@ class ProductController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => '',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-        ]);
-        if (!$request->has('id')) {
-            $existingProduct = Product::where('name', $request->name)->first();
-            if ($existingProduct) {
-                return redirect()->back()->withErrors(['name' => 'Product already exists'])->withInput();
-            }
+        // ProductRequest
+
+
+
+        try {
+            DB::beginTransaction();
+            $validatedData = $request->validated();
+            $this->product::create($validatedData);
+            DB::commit();
+            return redirect()->route('products.index')->with('success', 'Product saved successfully!');
+        } catch (Exception $ex) {
+            DB::rollBack();
+            return redirect()->route('products.index')->with('error', $ex->getMessage());
         }
 
-        $product = Product::updateOrCreate(
-            ['id' => $request->id],
-            [
-                'name' => $request->name,
-                'description' => $request->description,
-                'price' => $request->price,
-                'stock' => $request->stock,
-            ]
-        );
 
-        return redirect()->route('products.index')->with('success', 'Product saved successfully!');
+
+
+
+
+        // if (!$request->has('id')) {
+        //     $existingProduct = Product::where('name', $request->name)->first();
+        //     if ($existingProduct) {
+        //         return redirect()->back()->withErrors(['name' => 'Product already exists'])->withInput();
+        //     }
+        // }
+
+        // $product = Product::updateOrCreate(
+        //     ['id' => $request->id],
+        //     [
+        //         'name' => $request->name,
+        //         'description' => $request->description,
+        //         'price' => $request->price,
+        //         'stock' => $request->stock,
+        //     ]
+        // );
+
+        // return redirect()->route('products.index')->with('success', 'Product saved successfully!');
     }
-    public function show($id)
+    public function show(Product $product)
     {
-        $product = Product::findOrFail($id);
-
         return view('products.show', compact('product'));
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Product $product)
     {
-        $product = Product::find($id);
-
-        return view('products.create', compact('product'));
+        return view('products.edit', compact('product'));
+        // return view('products.create', compact('product'));
     }
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, Product  $product)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $validatedData = $request->validated();
+            $product->update($validatedData);
+            DB::commit();
+            return redirect()->route('products.index')->with('success', 'Product update successfully!');
+        } catch (Exception $ex) {
+            DB::rollBack();
+            return redirect()->route('products.index')->with('error', $ex->getMessage());
+        }
     }
 
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        try {
+            DB::beginTransaction();
+            $product->delete();
+            DB::commit();
+            return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        } catch (Exception $ex) {
+            DB::rollBack();
+            return redirect()->route('products.index')->with('error', $ex->getMessage());
+        }
     }
 }
