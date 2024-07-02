@@ -1,14 +1,13 @@
 
 
 <?php $__env->startSection('content'); ?>
-<h1 class="text-2xl font-bold"><?php echo e(isset($product) ? 'Edit Product' : 'Create Product'); ?></h1>
+<h1 class="text-2xl font-bold">Create Product</h1>
 
 
-    <?php echo Form::model(isset($product)?$product:'',['route' => 'products.store']); ?>
+    <?php echo Form::open(['route' => 'products.store','method'=>'POST',"enctype" => "multipart/form-data"]); ?>
 
-    <?php if(isset($product)): ?>
-    <?php echo Form::number('id', null, [ 'id' => 'id','hidden' ]); ?>     
-    <?php endif; ?>
+    
+   
         <div class="mb-3">
             <?php echo Form::label('name', 'Name:', ['class' => 'block text-gray-700 font-bold  ']); ?>
 
@@ -34,7 +33,7 @@
 
         </div>
         <div class="mb-3">
-            <?php echo Form::submit(isset($product) ? 'Update' : 'Create', ['class' => 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline']); ?>
+            <?php echo Form::submit('Create', ['class' => 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline']); ?>
 
         </div>
         

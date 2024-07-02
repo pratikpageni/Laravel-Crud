@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,5 +25,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::resource('products', ProductController::class);
+
+Route::resource('posts', PostController::class)->middleware(['auth']);
+
+Route::get('/userposts', [UserController::class, 'index'])->name('userposts.index');
 
 require __DIR__.'/auth.php';

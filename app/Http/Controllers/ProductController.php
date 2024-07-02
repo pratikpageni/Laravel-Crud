@@ -52,29 +52,6 @@ class ProductController extends Controller
             return redirect()->route('products.index')->with('error', $ex->getMessage());
         }
 
-
-
-
-
-
-        // if (!$request->has('id')) {
-        //     $existingProduct = Product::where('name', $request->name)->first();
-        //     if ($existingProduct) {
-        //         return redirect()->back()->withErrors(['name' => 'Product already exists'])->withInput();
-        //     }
-        // }
-
-        // $product = Product::updateOrCreate(
-        //     ['id' => $request->id],
-        //     [
-        //         'name' => $request->name,
-        //         'description' => $request->description,
-        //         'price' => $request->price,
-        //         'stock' => $request->stock,
-        //     ]
-        // );
-
-        // return redirect()->route('products.index')->with('success', 'Product saved successfully!');
     }
     public function show(Product $product)
     {
