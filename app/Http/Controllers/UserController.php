@@ -14,8 +14,8 @@ class UserController extends Controller
         $this->post = new Post();
     }
     function index(){
-        dd(auth()->user()->id);
-        $posts = Post::where('user_id', Auth::id())->get();
+        // dd(auth()->user()->id);
+        $posts = $this->post::where('user_id', Auth::id())->get();
         return view('posts.index', compact('posts'));
     }
 }

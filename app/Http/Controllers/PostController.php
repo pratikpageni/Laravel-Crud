@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\ProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
@@ -28,10 +29,9 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::where('user_id', auth()->user()->id)->get();
-
         return view('post.index',compact('posts') );
     }
-
+    
    
     public function create()
     {

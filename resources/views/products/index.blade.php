@@ -5,8 +5,9 @@
     <h1 class="text-2xl font-bold mb-4">Products</h1>
     <a href="{{ route('products.create') }}"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block">Create New Product</a>
+        @include('products.search_form')
 
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto mt-10">
         <table class="min-w-full bg-white border border-gray-300">
             <thead>
                 <tr class="bg-gray-200 text-gray-700">

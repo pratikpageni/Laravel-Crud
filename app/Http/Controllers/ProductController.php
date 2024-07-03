@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
@@ -19,15 +20,36 @@ class ProductController extends Controller
         $this->product = new Product();
     }
 
-    public function index()
-    {
-        $products =  $this->product::all();
+    public function index(Request $request)
+{
+    $price=null;
+    $categoryId=null;
+        $products = $this->product->all();
+        $categories = Category::all()->pluck('name', 'id');
 
-        ///status boolen 
-
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products', 'categories','price','categoryId'));
     }
 
+
+
+    public function getProductsByPriceAndCategory(Request $request)
+    {
+       
+        
+        if ($request->has('price')) {
+            $price = $request->input('price');
+        }
+        if ($request->has('category_id')) {
+            $categoryId = $request->input('category_id');
+        }
+
+        $products = Product::where('price', '>', $price)
+            ->where('id', $categoryId)
+            ->get();
+        $categories = Category::all()->pluck('name', 'id');
+
+        return view('products.index', compact('products', 'categories','price','categoryId'));
+    }
 
     public function create(Request $request)
     {
@@ -38,7 +60,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         // ProductRequest
-
+        // dd($request->all());
 
 
         try {
@@ -51,7 +73,6 @@ class ProductController extends Controller
             DB::rollBack();
             return redirect()->route('products.index')->with('error', $ex->getMessage());
         }
-
     }
     public function show(Product $product)
     {

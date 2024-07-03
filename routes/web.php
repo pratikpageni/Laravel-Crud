@@ -24,10 +24,16 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::resource('products', ProductController::class);
 
-Route::resource('posts', PostController::class)->middleware(['auth']);
+
+
+Route::middleware(['auth','isActive'])->group(function (){
+    Route::resource('products', ProductController::class);
+
+Route::post('products/filter', [ProductController::class, 'getProductsByPriceAndCategory'])->name('products.filter');
+Route::resource('posts', PostController::class);
 
 Route::get('/userposts', [UserController::class, 'index'])->name('userposts.index');
-
+    
+});
 require __DIR__.'/auth.php';
