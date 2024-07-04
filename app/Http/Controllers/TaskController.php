@@ -44,10 +44,20 @@ class TaskController extends Controller
             $validatedData = $request->validated();
             $this->task::create($validatedData);
             DB::commit();
-            return response()->json(['sucess', 'Task save Sucessfully'], 201);
+            $response = [
+                'status' => 'success',
+                'code' => 201,
+                'message' => 'Task Save Sucessfully',
+            ];
+            return response()->json($response);
         } catch (Exception $ex) {
             DB::rollBack();
-            return response()->json(['error', $ex->getMessage()]);
+            return response()->json([
+                'status' => 'error',
+                'code' => 500,
+                'message' => "Task save Fail",
+                'errors' => $ex->getMessage()
+            ],500);
         }
     }
 
@@ -109,10 +119,20 @@ class TaskController extends Controller
             DB::beginTransaction();
             $task->delete();
             DB::commit();
-            return response()->json(['sucess' => 'Task deleted successfully']);
+            $response = [
+                'status' => 'success',
+                'code' => 201,
+                'message' => 'Task deleted Sucessfully',
+            ];
+            return response()->json($response);
         } catch (Exception $ex) {
             DB::rollBack();
-            return response()->json(['error' => $ex]);
+            return response()->json([
+                'status' => 'error',
+                'code' => 500,
+                'message' => "Task delete Fail",
+                'errors' => $ex->getMessage()
+            ],500);
         }
     }
 }

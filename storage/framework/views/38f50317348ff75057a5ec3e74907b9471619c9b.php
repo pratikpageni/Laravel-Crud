@@ -11,4 +11,4 @@
     </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\zPersonal\Project\Laravel-Crud\resources\views/products/show.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('dashboard', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\zPersonal\Project\Laravel-Crud\resources\views/products/show.blade.php ENDPATH**/ ?>

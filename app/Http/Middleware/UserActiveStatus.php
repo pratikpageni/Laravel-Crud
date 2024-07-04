@@ -17,11 +17,11 @@ class UserActiveStatus
     public function handle(Request $request, Closure $next)
     {
         $user=false;
-        
-        if (auth()->user()->active) {
+        // if ($user) {
+        if(auth()->user()->active){
             return $next($request);
         }else{
-            abort(404);
+            return response()->view('errors.inactive', [], 403);
         }
     }
 }

@@ -1,5 +1,5 @@
 <!-- resources/views/products/index.blade.php -->
-@extends('layout')
+@extends('dashboard')
 
 @section('content')
     <h1 class="text-2xl font-bold mb-4">Products</h1>

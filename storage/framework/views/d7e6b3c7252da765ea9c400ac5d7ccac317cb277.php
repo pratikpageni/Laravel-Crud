@@ -1,6 +1,8 @@
 
 
 <?php $__env->startSection('content'); ?>
+<h1 class="text-2xl font-bold mb-4">Posts</h1>
+
     <a href="<?php echo e(route('posts.create')); ?>"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block">Create New Post</a>
 

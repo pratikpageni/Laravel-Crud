@@ -24,6 +24,7 @@
                 </ul>
             </div>
         @endif
+        pra
         @yield('content')
     </div>
 </body>
