@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('products', ProductController::class);
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 
+
+
+Route::middleware(['auth','isActive'])->group(function (){
+    Route::resource('products', ProductController::class);
+
+Route::post('products/filter', [ProductController::class, 'getProductsByPriceAndCategory'])->name('products.filter');
+Route::resource('posts', PostController::class);
+
+Route::get('/userposts', [UserController::class, 'index'])->name('userposts.index');
+    
+});
+require __DIR__.'/auth.php';
